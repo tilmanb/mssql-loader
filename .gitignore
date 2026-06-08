@@ -1,0 +1,29 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.env/
+.envrc
+
+# QGIS plugin metadata or build artifacts
+*.qgs~
+*.qgz~
+*.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.DS_Store
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+# OS files
+Thumbs.db
+Desktop.ini
