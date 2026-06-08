@@ -2,7 +2,7 @@
 
 ![MSSQL Loader Icon](icon.png)
 
-A PyQT5-based QGIS plugin for loading spatial data from Microsoft SQL Server / MSSQL databases directly into QGIS.
+A PyQT5-based QGIS plugin for loading spatial data from Microsoft SQL Server database SQL queries directly into QGIS.
 
 This is mostly vibe-coded using Github Copilot.
 

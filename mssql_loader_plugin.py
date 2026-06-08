@@ -6,7 +6,7 @@ from .mssql_loader_dialog import MSSQLLoaderDialog
 
 
 class MSSQLLoaderPlugin:
-    """QGIS Plugin for loading spatial data from MSSQL/SQL Server databases"""
+    """QGIS Plugin for loading spatial data from MSSQL SQL queries"""
     
     def __init__(self, iface):
         self.iface = iface
@@ -18,7 +18,7 @@ class MSSQLLoaderPlugin:
         self.action = QAction("MSSQL Loader", self.iface.mainWindow())
         icon_path = os.path.join(os.path.dirname(__file__), 'icon.png')
         self.action.setIcon(QIcon(icon_path))
-        self.action.setStatusTip("Load spatial data from MSSQL/SQL Server databases")
+        self.action.setStatusTip("Load spatial data from MSSQL SQL queries")
         self.action.triggered.connect(self.show_dialog)
         
         # Add to plugin menu
