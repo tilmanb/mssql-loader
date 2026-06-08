@@ -6,15 +6,15 @@ from qgis.core import (
     QgsField,
     QgsFeature,
     QgsGeometry,
-    QgsProviderRegistry
+    QgsProviderRegistry,
+    Qgis
 )
 from PyQt5.QtCore import QVariant
-from pprint import pprint
 import pyodbc
 
 
 class MSSQLLayerLoader:
-    def __init__(self, qgis_connection_name, query, geometry_type='Polygon', crs='EPSG:4326'):
+    def __init__(self, qgis_connection_name, query, geometry_type='Polygon', crs='EPSG:4326', message_callback=None):
         """Initialize the MSSQLLayerLoader.
 
         Args:
@@ -22,12 +22,15 @@ class MSSQLLayerLoader:
             query (str): SQL query to fetch rows including a geometry column.
             geometry_type (str): Geometry type to use when creating layers (default 'Polygon').
             crs (str): Coordinate reference system string (default 'EPSG:4326').
+            message_callback (callable, optional): Function to show UI messages.
+                Expected signature: (title, message, level, duration).
         """
 
         self.connection_name = qgis_connection_name
         self.query = query
         self.geometry_type = geometry_type
         self.crs = crs
+        self.message_callback = message_callback
 
         self.conn = None
         self.cursor = None
@@ -186,6 +189,10 @@ class MSSQLLayerLoader:
         layer.updateExtents()
         QgsProject.instance().addMapLayer(layer)
 
+    def _show_message(self, title, message, level=Qgis.MessageLevel.Info, duration=5):
+        if self.message_callback:
+            self.message_callback(title, message, level, duration)
+
     def _create_query_layer(self, layer_name='SQL Server query layer'):
         """Create and add a live QGIS query layer backed by the SQL query.
 
@@ -200,7 +207,7 @@ class MSSQLLayerLoader:
         # Build the URI for the QGIS query layer (live query layer)
         uri = QgsDataSourceUri()
         conn_info = self._get_connection_info()
-        pprint(conn_info)
+        self._show_message("Connection Info", str(conn_info), Qgis.MessageLevel.Info, 5)
     
         #uri.setConnection(conn_info['server'], conn_info['database'], conn_info['username'], conn_info['password'])
         #uri.setConnection('localhost', 'til1', 'sa', '12345678!A')
@@ -219,7 +226,7 @@ class MSSQLLayerLoader:
         # Add CRS
         uri.setSrid("25832")
         
-        pprint(uri.uri())
+        self._show_message("Query URI", uri.uri(), Qgis.MessageLevel.Info, 5)
 
         # Create the QgsVectorLayer using the query
         layer = QgsVectorLayer(uri.uri(), layer_name, "mssql")

@@ -6,7 +6,6 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt, QTimer
 from qgis.gui import QgsProjectionSelectionDialog, QgsMessageBar
 from qgis.core import QgsProject, Qgis
-from pprint import pprint
 import traceback
 
 from .mssql_loader_class import MSSQLLayerLoader
@@ -279,7 +278,8 @@ class MSSQLLoaderDialog(QDialog):
                     conn_str=conn_str,
                     query=query,
                     geometry_type=self.geom_type_combo.currentText(),
-                    crs=self.crs
+                    crs=self.crs,
+                    message_callback=self.show_message
                 )
             else:
                 # Use QGIS named connection
@@ -288,7 +288,8 @@ class MSSQLLoaderDialog(QDialog):
                     qgis_connection_name=conn_name,
                     query=query,
                     geometry_type=self.geom_type_combo.currentText(),
-                    crs=self.crs
+                    crs=self.crs,
+                    message_callback=self.show_message
                 )
             
             # Load the layer
@@ -307,10 +308,11 @@ class MSSQLLoaderDialog(QDialog):
 class MSSQLLayerLoaderDirect(MSSQLLayerLoader):
     """Extended MSSQLLayerLoader that can use direct pyodbc connection strings"""
     
-    def __init__(self, conn_str, query, geometry_type='Polygon', crs='EPSG:4326'):
+    def __init__(self, conn_str, query, geometry_type='Polygon', crs='EPSG:4326', message_callback=None):
         # Initialize parent without connection name (we'll override the connection method)
         super().__init__(qgis_connection_name=None, query=query, 
-                         geometry_type=geometry_type, crs=crs)
+                         geometry_type=geometry_type, crs=crs,
+                         message_callback=message_callback)
         self.conn_str = conn_str
         
     def _get_connection_info(self):
