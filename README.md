@@ -92,6 +92,9 @@ FROM my_database.dbo.points
 - Best for: Stable reference data, smaller datasets
 
 ### Query Layer (Live Connection)
+
+**this does not work at the moment**
+
 - Maintains a live connection to the database
 - Query is re-executed on each map redraw
 - Reflects real-time database changes
@@ -103,7 +106,7 @@ FROM my_database.dbo.points
 ### "No geometry column detected"
 - Ensure your query includes a geometry column
 - Check that geometry is named `geom` or try explicitly naming it: `SELECT ..., geometry AS geom`
-- Verify geometry is in WKB format
+- Verify geometry is in WKB format (`select geom.STAsBinary() as geom, ...`)
 
 ### "Connection failed"
 - Verify server name and port
@@ -133,7 +136,7 @@ The plugin consists of:
 
 ## License
 
-[Your License Here]
+GPL v2
 
 ## Support
 
