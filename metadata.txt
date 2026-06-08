@@ -7,7 +7,7 @@ author=Tilman Brock-Hesse
 email=tilman.brock@gmail.com
 category=Database
 repository=
-icon=
+icon=icon.png
 
 [metadata]
 Tags=database,sql,mssql

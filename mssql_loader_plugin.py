@@ -1,3 +1,4 @@
+import os
 from PyQt5.QtWidgets import QAction
 from PyQt5.QtGui import QIcon
 from qgis.utils import iface
@@ -15,6 +16,8 @@ class MSSQLLoaderPlugin:
     def initGui(self):
         """Create plugin menu item and toolbar button"""
         self.action = QAction("MSSQL Loader", self.iface.mainWindow())
+        icon_path = os.path.join(os.path.dirname(__file__), 'icon.png')
+        self.action.setIcon(QIcon(icon_path))
         self.action.setStatusTip("Load spatial data from MSSQL/SQL Server databases")
         self.action.triggered.connect(self.show_dialog)
         
